@@ -138,7 +138,7 @@ Usage
 
     def report_details(request, report_id)
         instance = Report.objects.get(id=report_id)
-        return JsonResponse({'url': instance.url})
+        return JsonResponse({'url': instance.pdf_file.url})
 
 **json response**
 
