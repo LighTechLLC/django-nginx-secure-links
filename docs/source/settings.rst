@@ -1,0 +1,6 @@
+Settings
+========
+
+
+.. autosummary::
+   :toctree: generated
