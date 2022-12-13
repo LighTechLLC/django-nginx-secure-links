@@ -1,6 +1,14 @@
 Changelog
 =========
 
+0.0.6
+-----
+
+Changes:
+
+- `MANIFEST.in` added
+- `author_email` added
+
 0.0.5
 -----
 
