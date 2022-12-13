@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.0.5
+-----
+
+Changes:
+
+- `setup.py` fixed, templates folder added
+
 0.0.4
 -----
 
