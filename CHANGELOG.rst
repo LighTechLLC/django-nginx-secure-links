@@ -1,6 +1,14 @@
 Changelog
 =========
 
+0.0.4
+-----
+
+Changes:
+
+- `setup.py` fixed, management command included in the dist build
+- `docs` initiated
+
 0.0.3
 -----
 
