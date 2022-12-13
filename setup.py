@@ -30,6 +30,7 @@ setup(
     packages=[
         'nginx_secure_links',
         'nginx_secure_links.management',
+        'nginx_secure_links.management.commands',
     ],
     python_requires=">=3.6",
     install_requires=["Django>=3.2"],
