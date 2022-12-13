@@ -1,0 +1,3 @@
+include CHANGELOG.rst LICENSE README.rst
+recursive-include nginx_secure_links *
+global-exclude *.py[co]
