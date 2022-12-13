@@ -32,6 +32,11 @@ setup(
         'nginx_secure_links.management',
         'nginx_secure_links.management.commands',
     ],
+    data_files=[
+        ('templates', [
+            'nginx_secure_links/templates/nginx_secure_links/locations.conf'
+        ]),
+    ],
     python_requires=">=3.6",
     install_requires=["Django>=3.2"],
     extras_require={},
