@@ -71,8 +71,29 @@ Quick example
     )
     MEDIA_ROOT = '/var/www/media/'
     MEDIA_URL = '/media/'
-    DEFAULT_FILE_STORAGE = 'nginx_secure_links.storages.FileStorage'
     SECURE_LINK_SECRET_KEY = 'KfM6aA6M7H'
+
+- Django < 4.2
+
+.. code-block:: python
+
+    DEFAULT_FILE_STORAGE = 'nginx_secure_links.storages.FileStorage'
+
+
+- Django >= 4.2
+
+.. code-block:: python
+
+    STORAGES = {
+        "default": {
+            "BACKEND": "nginx_secure_links.storages.FileStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        },
+    }
+
+
 
 2. Create a private file inside your ``settings.MEDIA_ROOT``:
 
