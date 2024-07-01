@@ -15,8 +15,8 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-20.04 ]
-        python-version: [ "3.6", "3.7", "3.8", "3.9", "3.10", "3.11" ]
-        django-version: [ "3.2", "4.0", "4.1", "4.2" ]
+        python-version: [ "3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12" ]
+        django-version: [ "3.2", "4.0", "4.1", "4.2", "5.0" ]
         exclude:
           - python-version: "3.6"
             django-version: "4.0"
@@ -24,12 +24,20 @@ jobs:
             django-version: "4.1"
           - python-version: "3.6"
             django-version: "4.2"
+          - python-version: "3.6"
+            django-version: "5.0"
           - python-version: "3.7"
             django-version: "4.0"
           - python-version: "3.7"
             django-version: "4.1"
           - python-version: "3.7"
             django-version: "4.2"
+          - python-version: "3.7"
+            django-version: "5.0"
+          - python-version: "3.8"
+            django-version: "5.0"
+          - python-version: "3.9"
+            django-version: "5.0"
           - python-version: "3.11"
             django-version: "3.2"
           - python-version: "3.11"
@@ -45,11 +53,13 @@ jobs:
       - name: Install Dependencies
         run: |
           pip install --upgrade setuptools
-          pip install tox
+          pip install django==${{ matrix.django-version }} tox
       - name: Run unittest Python ${{ matrix.python-version }} -- Django ${{ matrix.django-version }}
         env:
           TOXENV: py${{ matrix.python-version }}-django${{ matrix.django-version }}
-        run: tox
+        run: |
+          tox
+          python manage.py check
 
   run_quality_tests:
     name: Quality tests
