@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.0.7
+-----
+
+Changes:
+
+- django 4.2 support added
+
 0.0.6
 -----
 
