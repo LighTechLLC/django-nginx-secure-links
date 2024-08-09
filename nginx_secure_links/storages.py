@@ -2,6 +2,7 @@ import datetime
 import operator
 import re
 import urllib.parse
+from typing import Optional
 from urllib.parse import urlparse
 
 from django.core.exceptions import ImproperlyConfigured
@@ -137,11 +138,19 @@ class FileStorage(FileSystemStorage):
         )
         return self.prefix_predicate(any_prefix_matched)
 
-    def url(self, name: str) -> str:
+    def url(self, name: str, lifetime: int = None) -> str:
+        if lifetime is None:
+            # default lifetime
+            expires_seconds = self.expires_seconds
+        elif lifetime == 0:
+            # unlimited lifetime
+            expires_seconds = None
+        else:
+            expires_seconds = lifetime
         url = super().url(name)
-        return self.pre_sign_url(url, seconds=self.expires_seconds)
+        return self.pre_sign_url(url, seconds=expires_seconds)
 
-    def pre_sign_url(self, url: str, seconds: int) -> str:
+    def pre_sign_url(self, url: str, seconds: Optional[int]) -> str:
         """Generates pre-signed url with md5 token"""
         # skip if it's not specified in `self.path_prefixes`
         if not self._is_secure_path(url):
@@ -149,13 +158,16 @@ class FileStorage(FileSystemStorage):
 
         hashable_url = url.replace(self.not_hashable_prefix, '')
 
-        current_time = datetime.datetime.now(tz=datetime.timezone.utc)
-        timestamp = utils.gen_expires(current_time, seconds)
+        if seconds is not None:
+            current_time = datetime.datetime.now(tz=datetime.timezone.utc)
+            timestamp = utils.gen_expires(current_time, seconds)
+        else:
+            timestamp = None
         token = utils.gen_hash(hashable_url, timestamp, self.nginx_secret_key)
         params = urllib.parse.urlencode(
             {
                 self.token_field_name: token,
-                self.expires_field_name: timestamp,
+                self.expires_field_name: timestamp or '',
             }
         )
         return '{url}?{params}'.format(url=url, params=params)
