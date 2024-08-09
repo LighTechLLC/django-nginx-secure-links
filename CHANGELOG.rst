@@ -1,6 +1,14 @@
 Changelog
 =========
 
+0.0.8
+-----
+
+Changes:
+
+- Unlimited lifetime added
+- Custom lifetime added
+
 0.0.7
 -----
 
