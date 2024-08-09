@@ -238,6 +238,8 @@ The example is going to use all default ``settings.SECURE_LINK_*``
 
     storage = FileStorage(location='/var/www/personal_data/', base_url='/personal/')
     storage.url('profile.pdf')
+    storage.url('profile.pdf', lifetime=60)
+    storage.url('profile.pdf', lifetime=0)
 
 **Example 2**: We are going to use custom storage with all overridden settings.
 
