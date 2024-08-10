@@ -142,7 +142,7 @@ class FileStorage(FileSystemStorage):
         if lifetime is None:
             # default lifetime
             expires_seconds = self.expires_seconds
-        elif lifetime == 0:
+        elif lifetime <= 0:
             # unlimited lifetime
             expires_seconds = None
         else:
