@@ -107,3 +107,31 @@ def test_openssl_hashed_string_similarity_with_unlimited_lifetime(
     assert token_field_name in params
     assert expires_field_name not in params
     assert params[token_field_name][0] == sample_token
+
+
+def test_openssl_hashed_string_similarity_with_negative_lifetime(
+    dt_static_value,
+    storage_params_partially_private,
+    partially_private_storage,
+):
+    # /media/private/sample1.pdf secret_xyz
+    sample_path = 'private/sample1.pdf'
+    lifetime = -1
+
+    expires_timestamp = utils.gen_expires(
+        dt_static_value,
+        seconds=lifetime,
+    )
+    assert int(dt_static_value.timestamp()) > expires_timestamp
+
+    try:
+        partially_private_storage.url(sample_path, lifetime=lifetime)
+        assert (
+            False
+        ), 'Expected `ValueError` to be raised with negative `lifetime`.'
+    except ValueError:
+        # expected behavior
+        pass
+    except:
+        # unexpected exception raised
+        assert False, 'Excpected to raise a `ValueError` exception.'
