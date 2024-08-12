@@ -142,9 +142,11 @@ class FileStorage(FileSystemStorage):
         if lifetime is None:
             # default lifetime
             expires_seconds = self.expires_seconds
-        elif lifetime <= 0:
+        elif lifetime == 0:
             # unlimited lifetime
             expires_seconds = None
+        elif lifetime < 0:
+            raise ValueError('The value of `lifetime` should not be negative.')
         else:
             expires_seconds = lifetime
         url = super().url(name)
