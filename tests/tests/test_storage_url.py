@@ -1,5 +1,7 @@
 from urllib.parse import parse_qs, urlparse
 
+import pytest
+
 from nginx_secure_links import utils
 
 
@@ -84,13 +86,6 @@ def test_openssl_hashed_string_similarity_with_unlimited_lifetime(
     sample_token = 'P1LB2On7XTx5j4pZmYQaRw'
     lifetime = 0
 
-    expires_timestamp = str(
-        utils.gen_expires(
-            dt_static_value,
-            seconds=lifetime,
-        )
-    )
-
     url: str = partially_private_storage.url(sample_path, lifetime=lifetime)
     o = urlparse(url)
     params = parse_qs(o.query)
@@ -107,3 +102,14 @@ def test_openssl_hashed_string_similarity_with_unlimited_lifetime(
     assert token_field_name in params
     assert expires_field_name not in params
     assert params[token_field_name][0] == sample_token
+
+
+def test_openssl_hashed_string_similarity_with_negative_lifetime(
+    partially_private_storage,
+):
+    sample_path = 'private/sample1.pdf'
+    lifetime = -1
+
+    with pytest.raises(ValueError) as e:
+        partially_private_storage.url(sample_path, lifetime=lifetime)
+    assert str(e.value) == 'The value of `lifetime` should not be negative.'

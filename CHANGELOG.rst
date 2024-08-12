@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.0.9
+-----
+
+Changes:
+
+- Negative lifetime treated as `ValueError`
+
 0.0.8
 -----
 
