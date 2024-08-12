@@ -1,5 +1,7 @@
 from urllib.parse import parse_qs, urlparse
 
+import pytest
+
 from nginx_secure_links import utils
 
 
@@ -124,14 +126,6 @@ def test_openssl_hashed_string_similarity_with_negative_lifetime(
     )
     assert int(dt_static_value.timestamp()) > expires_timestamp
 
-    try:
+    with pytest.raises(ValueError) as e:
         partially_private_storage.url(sample_path, lifetime=lifetime)
-        assert (
-            False
-        ), 'Expected `ValueError` to be raised with negative `lifetime`.'
-    except ValueError:
-        # expected behavior
-        pass
-    except:
-        # unexpected exception raised
-        assert False, 'Excpected to raise a `ValueError` exception.'
+    assert str(e.value) == 'The value of `lifetime` should not be negative.'
