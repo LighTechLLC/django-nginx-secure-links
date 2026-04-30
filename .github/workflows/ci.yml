@@ -4,14 +4,12 @@ on:
   push:
     branches: [ master, dev ]
   pull_request:
-    branches:
-      - '**'
-
 
 jobs:
   run_unittest_tests:
     name: Unittest
     runs-on: self-hosted
+    container: python:${{ matrix.python-version }}
     strategy:
       matrix:
         python-version: [ "3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13" ]
@@ -112,11 +110,8 @@ jobs:
 
   run_quality_tests:
     name: Quality tests
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ ubuntu-20.04 ]
-        python-version: [ "3.7" ]
+    runs-on: self-hosted
+    container: python:3.12
 
     steps:
       - uses: actions/checkout@v2
