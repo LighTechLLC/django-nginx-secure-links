@@ -8,10 +8,10 @@ on:
 jobs:
   run_unittest_tests:
     name: Unittest
-    runs-on: self-hosted
-    container: python:${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        os: [ ubuntu-20.04 ]
         python-version: [ "3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13" ]
         django-version: [ "3.2", "4.0", "4.1", "4.2", "4.2.8", "5.0", "5.1", "5.1.3", "5.2" ]
         exclude:
@@ -110,9 +110,7 @@ jobs:
 
   run_quality_tests:
     name: Quality tests
-    runs-on: self-hosted
-    container: python:3.12
-
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: setup python
