@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.0.10
+------
+
+Changes:
+
+- Django 5.0, 5.1, 5.2, 6.0 supported versions updated
+
 0.0.9
 -----
 
